@@ -1,0 +1,23 @@
+name: "Days Since Last Commit"
+description: "GitHub Action to determine the number of days since the last commit."
+
+branding:
+  icon: "refresh-cw"
+  color: "gray-dark"
+
+outputs:
+  days-since-last-commit:
+    description: "Days Since Last Commit"
+    value: ${{ steps.commits.outputs.days-since-last-commit }}
+  
+runs:
+  using: "composite"
+  
+  steps:
+    - name: "Checkout Repository"
+      uses: "actions/checkout@v3"
+      
+    - name: "Determine Days Since Last Commit"
+      id: "commits"
+      shell: "sh"
+      run: echo "days-since-last-commit=$(sh ${{ github.action_path }}/days-since-last-commit.sh)" >> "$GITHUB_OUTPUT"
